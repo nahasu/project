@@ -17,7 +17,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    docker.withRegistry("https://${ECR_PATH}", 'ecr:${AWS_CREDENTIAL_ID}') {
+                    docker.withRegistry('https://${ECR_PATH}', 'ecr:${AWS_CREDENTIAL_ID}') {
                         def image = docker.build("${ECR_PATH}/${ECR_IMAGE}")
                     }
                 }
@@ -26,7 +26,7 @@ pipeline {
         stage('Push to ECR') {
             steps {
                 script {
-                    docker.withRegistry("https://${ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}") {
+                    //docker.withRegistry("https://${ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}") {
                         image.push("v${env.BUILD_NUMBER}")
                     }
                 }
