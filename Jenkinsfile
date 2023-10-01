@@ -21,7 +21,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    // Docker 이미지 빌드
+                    // Dockerfile 이미지 빌드
                     docker.build("${ECR_PATH}/${ECR_IMAGE}:v${env.BUILD_NUMBER}")
                 }
             }
