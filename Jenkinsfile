@@ -57,7 +57,7 @@ pipeline {
                     withKubeConfig([credentialsId: env.EKS_JENKINS_CREDENTIAL_ID,
                                     serverUrl: env.EKS_API,
                                     clusterName: env.EKS_CLUSTER_NAME]) {
-                        sh "aws eks --region ${env.REGION} update-kubeconfig --name ${env.EKS_CLUSTER_NAME}"
+                        sh "aws eks update-kubeconfig --name ${env.EKS_CLUSTER_NAME} --region ${env.REGION}"
                         sh "sed 's/IMAGE_VERSION/v${env.BUILD_ID}/g' service.yaml > output.yaml"
                         sh "aws eks --region ${env.REGION} update-kubeconfig --name ${env.EKS_CLUSTER_NAME}"
                         sh "kubectl apply -f output.yaml"
