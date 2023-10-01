@@ -30,8 +30,7 @@ pipeline {
                     // 사용하지 않는 Docker 이미지 정리
                     def oldImageTag = env.BUILD_NUMBER.toInteger() - 2
                     if (oldImageTag > 0){
-                        def oldImage = "${ECR_PATH}/${ECR_IMAGE}:v${oldImageTag}"
-                        sh "docker rmi ${oldImage}"
+                        sh "docker rmi ${ECR_PATH}/${ECR_IMAGE}:v${oldImageTag}"
                     }
                 }
             }
