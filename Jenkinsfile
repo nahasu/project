@@ -3,9 +3,9 @@ pipeline {
 
     environment{
         REGION = 'ap-northeast-2'
-        ECR_PATH = {ECR로 가서 Repository의 URI을 가져오되 /repository-name 은 제거}
-        ECR_IMAGE = 'ecr 이미지 이름'
-        AWS_CREDENTIAL_ID = 'Jenkins에서 설정한 AWS Credential'
+        ECR_PATH = {https://621917999036.dkr.ecr.ap-northeast-2.amazonaws.com/}
+        ECR_IMAGE = 'web_jenkins'
+        AWS_CREDENTIAL_ID = 'AWS'
 
     }
     stages {
