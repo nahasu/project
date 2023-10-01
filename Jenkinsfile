@@ -31,6 +31,7 @@ pipeline {
                     def oldImageTag = env.BUILD_NUMBER.toInteger() - 2
                     if (oldImageTag > 0){
                         sh "docker rmi ${ECR_PATH}/${ECR_IMAGE}:v${oldImageTag}"
+                        sh "docker rmi ${ECR_PATH}/${ECR_IMAGE}:latest"
                     }
                 }
             }
