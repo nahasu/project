@@ -52,22 +52,14 @@ pipeline {
 
         
         stage('Deploy to k8s'){
-            steps {
-                script {
-                    // Kubernetes 컨텍스트 설정
-                     sh "/path/to/kubectl config use-context ${EKS_CLUSTER_NAME}"
-
-                    // 이미지 버전을 Jenkins 빌드 번호로 대체하고 배포 파일을 생성
-                    sh "sed 's/IMAGE_VERSION/v${env.BUILD_NUMBER}/g' service.yaml > output.yaml"
-
-                    // eks 업데이트
-                    sh "aws eks --region ${REGION} update-kubeconfig --name ${EKS_CLUSTER_NAME}"
-
-                    // 배포 실행 및 생성된 파일 삭제
-                    sh "kubectl apply -f output.yaml"
-                    sh "rm output.yaml"
-                }
-            }
+        withKubeConfig([credentialsId: "{EKS_JENKINS_CREDENTIAL_ID}",
+                        serverUrl: "${EKS_API}",
+                        clusterName: "${EKS_CLUSTER_NAME}"]){
+            sh "sed 's/IMAGE_VERSION/v${env.BUILD_ID}/g' service.yaml > output.yaml"
+            sh "aws eks --region ${REGION} update-kubeconfig --name ${EKS_CLUSTER_NAME}"
+            sh "kubectl apply -f output.yaml"
+            sh "rm output.yaml"
+             }
         }
     }
 }
