@@ -3,7 +3,7 @@ pipeline {
 
     environment{
         REGION = 'ap-northeast-2'
-        ECR_PATH = 'https://621917999036.dkr.ecr.ap-northeast-2.amazonaws.com'
+        ECR_PATH = '621917999036.dkr.ecr.ap-northeast-2.amazonaws.com'
         ECR_IMAGE = 'web_jenkins'
         AWS_CREDENTIAL_ID = 'AWS'
 
