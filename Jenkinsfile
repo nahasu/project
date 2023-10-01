@@ -34,10 +34,10 @@ pipeline {
         }
         stage('CleanUp Images'){
             steps{
-                sh""
+                sh"""
                     docker rmi ${ECR_PATH}/${ECR_IMAGE}:v$BUILD_NUMBER
                     docker rmi ${ECR_PATH}/${ECR_IMAGE}:latest
-                ""
+                """
             }
         }
     }
