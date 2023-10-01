@@ -50,23 +50,12 @@ pipeline {
             }
         }
 
-        stage('List pods') {
-            steps {
-                withKubeConfig([credentialsId: env.EKS_JENKINS_CREDENTIAL_ID,
-                                serverUrl: env.EKS_API,
-                                clusterName: env.EKS_CLUSTER_NAME,
-                                namespace: 'default'
-                                ]) {
-                    sh 'kubectl get pods'
-                }
-            }
-        }
         
         stage('Deploy to k8s'){
             steps {
                 script {
                     // Kubernetes 컨텍스트 설정
-                    //sh "kubectl config use-context ${EKS_CLUSTER_NAME}"
+                     sh "/path/to/kubectl config use-context ${EKS_CLUSTER_NAME}"
 
                     // 이미지 버전을 Jenkins 빌드 번호로 대체하고 배포 파일을 생성
                     sh "sed 's/IMAGE_VERSION/v${env.BUILD_NUMBER}/g' service.yaml > output.yaml"
