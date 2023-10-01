@@ -39,7 +39,7 @@ pipeline {
         stage('CleanUp Images') {
             steps {
                 // 사용하지 않는 Docker 이미지 정리
-                if (oldImageTag > 1){
+                if (${oldImageTag} > 0){
                      def oldImage = "${ECR_PATH}/${ECR_IMAGE}:v${oldImageTag}"
                     sh "docker rmi ${oldImage}"
                 }
