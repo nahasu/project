@@ -14,34 +14,35 @@ pipeline {
                 checkout scm
             }
         }
+
         stage('Docker Build') {
             steps {
                 script {
-                    docker.withRegistry('https://${ECR_PATH}', 'ecr:${AWS_CREDENTIAL_ID}') {
-                        def image = docker.build("${ECR_PATH}/${ECR_IMAGE}")
+                    // Docker 이미지 빌드
+                    docker.build("${ECR_PATH}/${ECR_IMAGE}:v${env.BUILD_NUMBER}")
+                }
+            }
+        }
+
+        stage('Push to ECR') {
+            steps {
+                script {
+                    // ECR에 이미지 푸시
+                    docker.withRegistry("https://${ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}") {
+                        docker.image("${ECR_PATH}/${ECR_IMAGE}:v${env.BUILD_NUMBER}").push()
                     }
                 }
             }
         }
-        stage('Push to ECR') {
-            steps {
-                script {
-                    //docker.withRegistry("https://${ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}") {
-                        image.push("v${env.BUILD_NUMBER}")
-                    //}
-                }
-            }
-        }
+
         stage('CleanUp Images') {
             steps {
-                script {
-                    sh """
-                        docker rmi ${ECR_PATH}/${ECR_IMAGE}:v${env.BUILD_NUMBER}
-                        docker rmi ${ECR_PATH}/${ECR_IMAGE}:latest
-                    """
-                }
+                    // 사용하지 않는 Docker 이미지 정리
+                sh """
+                    docker rmi ${ECR_PATH}/${ECR_IMAGE}:v${env.BUILD_NUMBER}
+                    docker rmi ${ECR_PATH}/${ECR_IMAGE}:latest
+                """
             }
         }
     }
 }
-
