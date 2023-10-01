@@ -57,10 +57,6 @@ pipeline {
                     withKubeConfig([credentialsId: "${EKS_JENKINS_CREDENTIAL_ID}",
                                     serverUrl: "${EKS_API}",
                                     clusterName: "${EKS_CLUSTER_NAME}"]) {
-                            
-                        sh "curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.7/2023-08-16/bin/darwin/amd64/kubectl"
-                        sh "chmod +x ./kubectl"
-                        sh "mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH"
                         
                         sh "sed 's/IMAGE_VERSION/v${env.BUILD_ID}/g' service.yaml > output.yaml"
 
