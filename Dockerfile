@@ -3,7 +3,7 @@
 	
 	FROM ubuntu
 	        # ubuntu 이미지를 베이스로 활용
-	LABEL maintainer BABO TT <babo@babo.com>
+	LABEL maintainer 123
 	        # LABEL : 해당 이미지에 대한 정보 maintainer(만든사람)
 	RUN apt-get update -y
 	        # -y를 안붙이면 다우운로드를 받을 것인지 사용자의 입력을 기다리기떄문에 에러가 발생한다
