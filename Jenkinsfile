@@ -8,7 +8,7 @@ pipeline {
         AWS_CREDENTIAL_ID = 'AWS'
         EKS_API = 'https://D2A59EBDDDD7B486CF3AF9A480165D0D.gr7.ap-northeast-2.eks.amazonaws.com'
         EKS_CLUSTER_NAME = 'myeks'
-        EKS_JENKINS_CREDENTIAL_ID = 'kubernetes-deploy'
+        EKS_JENKINS_CREDENTIAL_ID = 'kubectl-deploy-credentials'
     }
 
     stages {
