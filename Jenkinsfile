@@ -38,14 +38,11 @@ pipeline {
 
         stage('CleanUp Images') {
             steps {
-                script {
-                    def oldImageTag = env.BUILD_NUMBER.toInteger() - 1
-                    if (oldImageTag > 0) {
-                        // 이전 이미지를 삭제
-                        def oldImage = "${ECR_PATH}/${ECR_IMAGE}:v${oldImageTag}"
-                        sh "docker rmi ${oldImage}"
-                    }
-                }
+                // 사용하지 않는 Docker 이미지 정리
+                sh """
+                    docker rmi ${ECR_PATH}/${ECR_IMAGE}:v${env.BUILD_NUMBER}
+                    docker rmi ${ECR_PATH}/${ECR_IMAGE}:latest
+                """
             }
         }
     }
