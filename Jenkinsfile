@@ -6,7 +6,7 @@ pipeline {
         ECR_PATH = '621917999036.dkr.ecr.ap-northeast-2.amazonaws.com'
         ECR_IMAGE = 'web_jenkins'
         AWS_CREDENTIAL_ID = 'AWS'
-        RMI_NUMBER = "${env.BUILD_NUMBER.toInteger() - 1}"
+        oldImageTag = "${env.BUILD_NUMBER.toInteger() - 2}"
     }
 
     stages {
@@ -39,10 +39,10 @@ pipeline {
         stage('CleanUp Images') {
             steps {
                 // 사용하지 않는 Docker 이미지 정리
-                sh """
-                    docker rmi ${ECR_PATH}/${ECR_IMAGE}:v${env.BUILD_NUMBER}
-                    docker rmi ${ECR_PATH}/${ECR_IMAGE}:latest
-                """
+                if (oldImageTag > 1){
+                     def oldImage = "${ECR_PATH}/${ECR_IMAGE}:v${oldImageTag}"
+                    sh "docker rmi ${oldImage}"
+                }
             }
         }
     }
