@@ -41,7 +41,6 @@ pipeline {
                     // 사용하지 않는 Docker 이미지 정리
                 sh """
                     docker rmi ${ECR_PATH}/${ECR_IMAGE}:v${RMI_NUMBER}
-                    # docker rmi ${ECR_PATH}/${ECR_IMAGE}:latest
                 """
             }
         }
