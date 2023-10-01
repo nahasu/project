@@ -16,24 +16,28 @@ pipeline {
         }
         stage('Docker Build'){
             steps{
-                docker.withRegistry("https://${ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}"){
-                    image = docker.build("${ECR_PATH}/${ECR_IMAGE}")
-                    }
+                script {
+                    docker.withRegistry("https://${ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}"){
+                        image = docker.build("${ECR_PATH}/${ECR_IMAGE}")
+                        }
+                }
             }
         }
         stage('Push to ECR'){
             steps{
-                docker.withRegistry("https://{ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}"){
-                    image.push("v${env.BUILD_NUMBER}")
+                script {
+                    docker.withRegistry("https://{ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}"){
+                        image.push("v${env.BUILD_NUMBER}")
+                    }
                 }
             }
         }
         stage('CleanUp Images'){
             steps{
-                sh"""
-                docker rmi ${ECR_PATH}/${ECR_IMAGE}:v$BUILD_NUMBER
-                docker rmi ${ECR_PATH}/${ECR_IMAGE}:latest
-                """
+                script {
+                    docker rmi ${ECR_PATH}/${ECR_IMAGE}:v$BUILD_NUMBER
+                    docker rmi ${ECR_PATH}/${ECR_IMAGE}:latest
+                }
             }
         }
     }
