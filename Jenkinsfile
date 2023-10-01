@@ -10,23 +10,31 @@ pipeline {
     }
     stages {
         stage('Clone Repository'){
-            checkout scm
+            steps{
+                checkout scm
+            }
         }
         stage('Docker Build'){
-        docker.withRegistry("https://${ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}"){
-            image = docker.build("${ECR_PATH}/${ECR_IMAGE}")
+            steps{
+                docker.withRegistry("https://${ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}"){
+                    image = docker.build("${ECR_PATH}/${ECR_IMAGE}")
+                    }
             }
         }
         stage('Push to ECR'){
-            docker.withRegistry("https://{ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}"){
-                image.push("v${env.BUILD_NUMBER}")
+            steps{
+                docker.withRegistry("https://{ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_ID}"){
+                    image.push("v${env.BUILD_NUMBER}")
+                }
             }
         }
         stage('CleanUp Images'){
-            sh"""
-            docker rmi ${ECR_PATH}/${ECR_IMAGE}:v$BUILD_NUMBER
-            docker rmi ${ECR_PATH}/${ECR_IMAGE}:latest
-            """
+            steps{
+                sh"""
+                docker rmi ${ECR_PATH}/${ECR_IMAGE}:v$BUILD_NUMBER
+                docker rmi ${ECR_PATH}/${ECR_IMAGE}:latest
+                """
+            }
         }
     }
 }
