@@ -9,6 +9,8 @@ pipeline {
         EKS_API = 'https://61E3E43D5E60548BCD800B25902847DE.gr7.ap-northeast-2.eks.amazonaws.com'
         EKS_CLUSTER_NAME = 'myeks'
         EKS_JENKINS_CREDENTIAL_ID = 'jenkins_kubectl'
+
+        PATH = "/var/lib/jenkins/bin:$PATH"
     }
 
     stages {
