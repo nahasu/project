@@ -26,7 +26,7 @@ kind: Service
 metadata:
   name: web-jenkins-service
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: web.nseal.link
+    external-dns.alpha.kubernetes.io/hostname: nseal.link
 spec:
   type: LoadBalancer
   selector:
