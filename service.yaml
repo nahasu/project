@@ -8,14 +8,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web_jenkins
+      app: web-jenkins
   template:
     metadata:
       labels:
-        app: web_jenkins
+        app: web-jenkins
     spec:
       containers:
-        - name: web_jenkins
+        - name: web-jenkins
           image: 621917999036.dkr.ecr.ap-northeast-2.amazonaws.com/web_jenkins:IMAGE_VERSION
           imagePullPolicy: Always
           ports:
@@ -24,11 +24,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: web_jenkins_service
+  name: web-jenkins-service
 spec:
   type: LoadBalancer
   selector:
-    app: web_jenkins
+    app: web-jenkins
   ports:
     - protocol: TCP
       port: 80
