@@ -1,34 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-world
+  name: web
   labels:
-    app: hello-world
+    app: test
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hello-world
+      app: web_jenkins
   template:
     metadata:
       labels:
-        app: hello-world
+        app: web_jenkins
     spec:
       containers:
-        - name: springboot-app
+        - name: web_jenkins
           image: 621917999036.dkr.ecr.ap-northeast-2.amazonaws.com/web_jenkins:IMAGE_VERSION
           imagePullPolicy: Always
           ports:
-            -containerPort: 80
+            - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-world-service
+  name: web_jenkins_service
 spec:
   type: LoadBalancer
   selector:
-    app: hello-world
+    app: web_jenkins
   ports:
     - protocol: TCP
       port: 80
